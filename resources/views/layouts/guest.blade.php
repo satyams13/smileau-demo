@@ -55,6 +55,7 @@
         <div class="font-sans text-gray-900 antialiased" id="app">
             {{ $slot }}
         </div>
+        <input type="hidden" id="stripe-public-key" value="{{ env('STRIPE_KEY') }}">
     </body>
     <script type="text/javascript" src='/assets/js/app.js'></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>

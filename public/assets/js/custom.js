@@ -1,8 +1,9 @@
 $(document).ready(function() {
-    // regiaterFormValidator();
+    regiaterFormValidator();
 
+    var stripeKey = $('#stripe-public-key').val();
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_51Hm2L0AWdC2MCjw58yHGUz4ejb5KPJCCzE2iVeCaq1heKee7vPufDdIMgiOFRmS2lQcKrtz9kW69boQNS5YNzakp00HzSZLw18');
+    var stripe = Stripe(stripeKey);
 
     const elements = stripe.elements();
     const cardElement = elements.create('card');
@@ -15,6 +16,7 @@ $(document).ready(function() {
 
     cardButton.addEventListener('click', async (e) => {
         e.preventDefault();
+        $('#registerForm').bootstrapValidator('validate');
 
         const { setupIntent, error } = await stripe.confirmCardSetup(
             clientSecret, {
@@ -51,6 +53,14 @@ function regiaterFormValidator () {
                 validators: {
                     notEmpty: {
                         message: 'The username is required and cannot be empty'
+                    }
+                }
+            },
+            cardholder_name: {
+                message: 'The cardholder name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The cardholder name is required and cannot be empty'
                     }
                 }
             },
