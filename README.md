@@ -41,3 +41,23 @@
       ```sh
         php artisan serve
       ```
+
+# To run tests
+### Requirements
+
+  - sqlite3
+
+#### Install sqlite
+ ```sh
+    sudo apt-get install sqlite3
+ ```
+
+### Run phpunit test
+ ```sh
+    php artisan test
+ ```
+
+### Run browser test
+ ```sh
+    php artisan dusk
+ ```
