@@ -43,6 +43,8 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $user->email
             ]);
 
+            $this->createHubspotContact($input);
+
             $user->updateDefaultPaymentMethod($input['payment_method']);
 
             $amount       = env('STRIPE_AMOUNT') * 100;
@@ -56,5 +58,38 @@ class CreateNewUser implements CreatesNewUsers
         }
 
         return $user;
+    }
+
+    /**
+     * Create contact on hubspot.
+     *
+     * @param  array  $input
+     */
+    private function createHubspotContact(array $input)
+    {
+        $arr = array(
+            'properties' => [
+                [
+                    'property' => 'email',
+                    'value' => $input['email']
+                ],
+                [
+                    'property' => 'firstname',
+                    'value' => $input['name']
+                ]
+             ]
+        );
+        $post_json = json_encode($arr);
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact?hapikey='.env('HUBSPOT_APIKEY');
+        $ch = @curl_init();
+        @curl_setopt($ch, CURLOPT_POST, true);
+        @curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+        @curl_setopt($ch, CURLOPT_URL, $endpoint);
+        @curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = @curl_exec($ch);
+        $status_code = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($ch);
+        @curl_close($ch);
     }
 }
