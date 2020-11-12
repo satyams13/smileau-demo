@@ -27,6 +27,12 @@
     STRIPE_SECRET=sk_test_51Hm2L0AWdC2MCjw55SDC5w3m9L0AE9YHALYLqsdFVGzsw2iZef60LynwksygGntQ7eZMZlJMmUGcxNLYZRSLPfMq004xTWo026
     STRIPE_AMOUNT=20
     ```
+
+  - HubSpot key
+    ```sh
+    HUBSPOT_APIKEY=cea031a6-b9eb-46d8-9524-a610692fab18
+    ```
+
   - Generate application key
       ```sh
          php artisan key:generate
